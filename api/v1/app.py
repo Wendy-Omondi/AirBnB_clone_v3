@@ -10,6 +10,13 @@ from os import getenv
 app = Flask(__name__)
 app.register_blueprint(app_views)
 
+
+@app.teardown_appcontext
+def teardown(self):
+    """Closes storage session"""
+    storage.close()
+
+
 @app.errorhandler(404)
 def page_not_found(error):
     """returns a JSON-formatted 404 status code response."""
